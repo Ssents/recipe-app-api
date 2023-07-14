@@ -8,7 +8,26 @@ services:
         - DEV=true
     ports:
       - "8000:8000"
-    volumes:
+    volumes: #I do not remember what volumes is all about
       - ./app:/app
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
+    environment: #Here, we are connecting to the db image
+      - DB_HOST = db
+      - DB_NAME = devdb
+      - DB_USER = devuser
+      - DB_PASSWORD = changeme
+    depends_on: # these services will have to start before the app service starts
+      - db
+  
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - dev-dv-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB = devdb
+      - POSTGRES_USER = devuser
+      - POSTGRES_PASSWORD = changeme
+
+volumes:
+  dev-dv-data:
