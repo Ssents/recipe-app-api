@@ -1,6 +1,8 @@
 ---
 name: Checks
+
 on: [push] #this is a trigger for the push
+
 jobs:
   test-lint: #job
     name: Test and Lint
